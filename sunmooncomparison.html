@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sun & Moon Size Comparison</title>
+    <style>
+        body { text-align: center; font-family: Arial, sans-serif; }
+        .sky { position: relative; width: 100%; height: 400px; background: skyblue; overflow: hidden; }
+        .object { position: absolute; border-radius: 50%; cursor: grab; }
+        .sun { background: yellow; }
+        .moon { background: gray; }
+        .controls { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Sun & Moon Size Comparison</h1>
+    <div class="sky" id="sky">
+        <div id="sun" class="object sun"></div>
+        <div id="moon" class="object moon"></div>
+    </div>
+    <div class="controls">
+        <label>Sun Diameter (km): <input type="number" id="sunSize" value="1390000"></label>
+        <label>Moon Diameter (km): <input type="number" id="moonSize" value="3474"></label>
+        <label>Sun Distance (km): <input type="number" id="sunDistance" value="149600000"></label>
+        <label>Moon Distance (km): <input type="number" id="moonDistance" value="384400"></label>
+        <button onclick="updateObjects()">Update</button>
+    <label>Scale Factor = 1: <input type="checkbox" id="scaleToggle" onclick="updateObjects()"></label>
+    </div>
+    <script>
+        function updateObjects() {
+            let sunDiameter = parseFloat(document.getElementById('sunSize').value);
+            let moonDiameter = parseFloat(document.getElementById('moonSize').value);
+            let sunDistance = parseFloat(document.getElementById('sunDistance').value);
+            let moonDistance = parseFloat(document.getElementById('moonDistance').value);
+            
+            let sky = document.getElementById('sky');
+            let sun = document.getElementById('sun');
+            let moon = document.getElementById('moon');
+            
+            let scaleFactor = document.getElementById('scaleToggle').checked ? 1 : 0.05; // Base scale factor for the Moon
+            let moonApparentSize = moonDiameter * scaleFactor;
+            
+            // Adjust scale factor for the Sun so its apparent size matches the Moon
+            let sunScaleFactor = moonApparentSize / ((sunDiameter / moonDiameter) * (moonDistance / sunDistance));
+            console.log('Ratio:', (sunDiameter / moonDiameter) * (moonDistance / sunDistance));
+            let sunApparentSize = (sunDiameter / moonDiameter) * (moonDistance / sunDistance) * sunScaleFactor;
+            console.log('Sun Scale Factor:', sunScaleFactor);
+            
+            // Ensure minimum size for visibility
+            sunApparentSize = Math.max(sunApparentSize, 20);
+            moonApparentSize = Math.max(moonApparentSize, 20);
+            
+            sun.style.width = sun.style.height = sunApparentSize + 'px';
+            moon.style.width = moon.style.height = moonApparentSize + 'px';
+            
+            sun.style.left = '20%';
+            sun.style.top = '50%';
+            moon.style.left = '60%';
+            moon.style.top = '50%';
+        }
+
+        function makeDraggable(el) {
+            el.onmousedown = function (event) {
+                event.preventDefault();
+                let shiftX = event.clientX - el.getBoundingClientRect().left;
+                let shiftY = event.clientY - el.getBoundingClientRect().top;
+
+                function moveAt(pageX, pageY) {
+                    el.style.left = pageX - shiftX + 'px';
+                    el.style.top = pageY - shiftY + 'px';
+                }
+
+                function onMouseMove(event) {
+                    moveAt(event.pageX, event.pageY);
+                }
+
+                document.addEventListener('mousemove', onMouseMove);
+
+                document.onmouseup = function () {
+                    document.removeEventListener('mousemove', onMouseMove);
+                    document.onmouseup = null;
+                };
+            };
+
+            el.ondragstart = function () {
+                return false;
+            };
+        }
+
+        updateObjects();
+        makeDraggable(document.getElementById('sun'));
+        makeDraggable(document.getElementById('moon'));
+    </script>
+</body>
+</html>
