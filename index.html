@@ -42,7 +42,7 @@
             let moonApparentSize = moonDiameter * scaleFactor;
             
             // Adjust scale factor for the Sun so its apparent size matches the Moon
-            let sunScaleFactor = moonApparentSize / ((sunDiameter / moonDiameter) * (moonDistance / sunDistance));
+            let sunScaleFactor = moonApparentSize / (1.0281033437083422);
             console.log('Ratio:', (sunDiameter / moonDiameter) * (moonDistance / sunDistance));
             let sunApparentSize = (sunDiameter / moonDiameter) * (moonDistance / sunDistance) * sunScaleFactor;
             console.log('Sun Scale Factor:', sunScaleFactor);
