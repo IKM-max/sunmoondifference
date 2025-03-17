@@ -32,7 +32,7 @@ Go to Settings > Pages.
 
 Under "Branch," select main and save.
 
-The project will be accessible at https://IKM-max.github.io/sunmoondifference/.
+The project will be accessible at https://github.com/IKM-max/sunmoondifference.git
 
 License
 
