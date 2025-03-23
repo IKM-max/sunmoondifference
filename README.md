@@ -1,4 +1,4 @@
-<h1>Sun & Moon Size Comparison</h1>
+<h1>Simulation and Analysis Sun & Moon Size Stays the Same even though they are different in size,distance </h1>
 
 This project is a simple web-based visualization tool to compare the apparent sizes of the Sun and the Moon based on their diameters and distances from Earth. It allows users to adjust values dynamically and observe changes in real-time.
 
